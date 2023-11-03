@@ -26,7 +26,27 @@ class DriveWithController(commands2.CommandBase):
         self.drive.navX.reset()
 
     def execute(self) -> None:
+        """
+        1. Get current joystick values
+        2. Send to motors
+        3. ???
+        4. Profit
+        """
+        movementX = conversions.deadband(self.x(), constants.kdeadband)
+        movementY = conversions.deadband(self.y(), constants.kdeadband)
+        rotationX = conversions.deadband(self.rightx(), constants.kdeadband)
 
+        # Turn rotationX into degrees (-1, 1) to (0, 360)
+        
+
+
+
+
+
+
+
+
+        """
         self.gyroAngle = self.drive.getYaw() + 180
         wpilib.SmartDashboard.putNumber("Yaw", self.gyroAngle)
         self.angle = (conversions.convertJoystickInputToDegrees(conversions.deadband(self.x(), constants.kdeadband),
@@ -54,14 +74,16 @@ class DriveWithController(commands2.CommandBase):
             self.drive.turnInPlace(conversions.deadband(self.rightx(), constants.kdeadband))
         else:
             self.drive.translate(self.angle, self.magnitude)
-            """
+            "" "
             if self.magnitude != 0.0 and self.rightx != 0.0:
                 # checks if both joysticks are being used
                 self.drive.moveWhileSpinning(self.x(), self.y(), self.rightx())
             else:
                 # no rotation wanted
                 self.drive.translate(self.angle, self.magnitude)
-                """
+                "" "
+
+        """
 
         
 

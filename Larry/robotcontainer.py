@@ -9,7 +9,12 @@ from commands.charge_station import ChargeStation
 # import subsystems
 from subsystems.swerve_drive import SwerveDrive
 
+"""
+LARRY BUT WITH TRIG FUNCTIONS
 
+The old version used angle weirdness to control the robot, but as of 11/2/2023, it has NOT been going well.
+This test repo uses simple vertex math to attempt to easily create swerve drive.
+"""
 class RobotContainer:
     def __init__(self) -> None:
         # init controllers
@@ -40,12 +45,8 @@ class RobotContainer:
 
         self.swerveDrive.setDefaultCommand(
             DriveWithController(self.swerveDrive, lambda: self.driverController.getLeftX(),
-                                lambda: self.driverController.getLeftY(), lambda: self.driverController.getRightX()))
-        # self.swerveDrive.setDefaultCommand(Translate(self.swerveDrive,  lambda: self.driverController.getLeftX(), lambda: self.driverController.getLeftY()))
-        # self.swerveDrive.setDefaultCommand(MoveInPlace(self.swerveDrive, lambda: self.driverController.getRightX()))
-        # self.swerveDrive.setDefaultCommand(DriveSingleModule(self.swerveDrive,  lambda: self.driverController.getLeftX(), lambda: self.driverController.getLeftY()))
-        # self.swerveDrive.setDefaultCommand(TurnToSpecificPoint(self.swerveDrive,  lambda: self.driverController.getLeftX(), lambda: self.driverController.getLeftY()))
-        # self.swerveDrive.setDefaultCommand(Joysticks(self.swerveDrive, lambda: self.driverController.getLeftX(), lambda: self.driverController.getLeftY(), lambda: self.driverController.getRightX(), lambda: self.driverController.getRightY()))
+                                lambda: self.driverController.getLeftY(), lambda: self.driverController.getRightX()
+                                ))
 
     def configureButtonBindings(self):
         """This is where our trigger bindings for commands go"""

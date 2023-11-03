@@ -69,16 +69,7 @@ class SwerveDrive(commands2.SubsystemBase):
 
         # find current angle
         currentAngle = conversions.convertTalonFXUnitsToDegrees(module.directionMotor.getSelectedSensorPosition()/constants.ksteeringGearRatio)
-        """
-        # see if the abs value is greater than 180
-        if math.fabs(direction) >= 180.0:
-            # find the abs value of the opposite angle
-            opposAngle = math.fabs(direction) - 180.0
-        else:
-            # find the abs value of the opposite angle
-            opposAngle = math.fabs(direction) + 180.0
-        """
-        
+
         if direction < 0:
             opposAngle = direction + 180
             negAngle = 360 + direction
@@ -99,41 +90,6 @@ class SwerveDrive(commands2.SubsystemBase):
         wpilib.SmartDashboard.putNumber(" Neg Angle -", negAngle)
         # check if the joystick is in use
         if magnitude != 0.0:
-            """
-            # this is to test that if 360 or zero is closer it goes to 0
-            if (direction == 0.0 or direction == 180.0) and math.fabs(360 - currentAngle) <= math.fabs(
-                    currentAngle - opposAngle):
-                # this means that 360 or zero is the shortest distance
-                # now we have to find if 0.0 is the direction or the opposite angle
-                if direction == 0.0:
-                    module.turn(self.units * constants.ksteeringGearRatio)
-                    module.move(magnitude)
-                else:
-                    module.turn(conversions.convertDegreesToTalonFXUnits(opposAngle) * constants.ksteeringGearRatio)
-                    module.move(-magnitude)
-            """
-        
-            """
-            # if negAngle is closer
-            if math.fabs(currentAngle - direction) >= math.fabs(currentAngle - negAngle):
-                module.turn(conversions.convertDegreesToTalonFXUnits(negAngle + rev) * constants.ksteeringGearRatio)
-                wpilib.SmartDashboard.putNumber("1", math.fabs(currentAngle - direction))
-                wpilib.SmartDashboard.putNumber("-", math.fabs(currentAngle - negAngle))
-                wpilib.SmartDashboard.putBoolean("Using - ANGLE: ", True)
-            # if the original angle is closer   
-            elif math.fabs(currentAngle - direction) <= math.fabs(currentAngle - opposAngle):
-                # turn to the original angle
-                module.turn(conversions.convertDegreesToTalonFXUnits(direction + rev) * constants.ksteeringGearRatio)
-                # move in the normal way
-                module.move(magnitude)
-                wpilib.SmartDashboard.putBoolean("Using - ANGLE: ", False)
-            else:  # the opposite angle is closer
-                # turn to the other angle
-                module.turn(conversions.convertDegreesToTalonFXUnits(opposAngle + rev) * constants.ksteeringGearRatio)
-                # move in the opposite direction
-                module.move(-magnitude)
-                wpilib.SmartDashboard.putBoolean("Using - ANGLE: ", False)
-            """
             module.turn(constants.ksteeringGearRatio * conversions.convertDegreesToTalonFXUnits(conversions.getclosest(currentAngle, direction, magnitude)[0]))
             module.move(conversions.getclosest(currentAngle, direction, magnitude)[1])
 
@@ -142,6 +98,11 @@ class SwerveDrive(commands2.SubsystemBase):
             wpilib.SmartDashboard.putNumber("REVOLUTIONS", conversions.getRevolutions(currentAngle))
             wpilib.SmartDashboard.putNumber("Given Angle", conversions.getclosest(currentAngle, direction, magnitude)[0])
             wpilib.SmartDashboard.putNumber("Current Angle", currentAngle)
+
+    def vertexTurnWheel(self, module: SwerveWheel, movementX: float, movementY: float, rotationDegs: float):
+        units = conversions.convertDegreesToTalonFXUnits(rotationDegs)
+
+        
 
     def translate(self, direction: float, magnitude: float):
         self.turnWheel(self.leftFrontSwerveModule, direction, magnitude)
